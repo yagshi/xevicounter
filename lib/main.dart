@@ -1,7 +1,8 @@
-import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'xevipainter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,13 +33,21 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int count = 0;
-  List<XeviPainter> xevi = [XeviPainter(), XeviPainter()];
+  List<XeviPainter> digits = [
+    XeviPainter(),
+    XeviPainter(),
+    XeviPainter(),
+    XeviPainter(),
+  ];
   @override
   void initState() {
-    Timer.periodic(const Duration(seconds: 1), (t) {
+    Timer.periodic(const Duration(milliseconds: 10), (t) {
       setState(() {
         count++;
-        xevi[0].angle = count.toDouble();
+        digits[3].num = (count & 0x000f) >> 0;
+        digits[2].num = (count & 0x00f0) >> 4;
+        digits[1].num = (count & 0x0f00) >> 8;
+        digits[0].num = (count & 0xf000) >> 12;
       });
     });
     super.initState();
@@ -46,38 +55,38 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<CustomPaint> rowcontent = [];
+    for (XeviPainter element in digits) {
+      rowcontent.add(CustomPaint(
+        size: const Size(100, 100),
+        painter: element,
+      ));
+    }
+
     return Scaffold(
-      appBar: AppBar(title: const Text("XEVICOUNTER")),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            count++;
-            xevi[0].angle = count.toDouble();
-          });
-        },
-        child: const Icon(Icons.plus_one),
-      ),
-      body: Column(children: [
-        CustomPaint(
-          size: const Size(400, 400),
-          painter: xevi[0],
+        appBar: AppBar(title: const Text("XEVICOUNTER")),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              count++;
+            });
+          },
+          child: const Icon(Icons.plus_one),
         ),
-        Text(count.toString())
-      ]),
-    );
-  }
-}
-
-class XeviPainter extends CustomPainter {
-  double angle = 0;
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawArc(const Offset(200, 200) & const Size(100, 100), -pi / 2,
-        angle / 180 * 6 * pi, true, Paint());
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+        body: Center(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: rowcontent,
+              ),
+              Text(
+                count.toString(),
+                style: const TextStyle(fontSize: 48),
+              )
+            ],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
+        ));
   }
 }
