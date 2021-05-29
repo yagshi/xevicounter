@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'XeviCounter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -33,6 +34,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int count = 0;
+  int preset = 0;
+  bool _running = false;
+
   List<XeviPainter> digits = [
     XeviPainter(),
     XeviPainter(),
@@ -41,16 +45,22 @@ class _MainPageState extends State<MainPage> {
   ];
   @override
   void initState() {
-    Timer.periodic(const Duration(milliseconds: 10), (t) {
-      setState(() {
-        count++;
-        digits[3].num = (count & 0x000f) >> 0;
-        digits[2].num = (count & 0x00f0) >> 4;
-        digits[1].num = (count & 0x0f00) >> 8;
-        digits[0].num = (count & 0xf000) >> 12;
-      });
+    Timer.periodic(const Duration(milliseconds: 100), (t) {
+      if (_running) {
+        setState(() {
+          count++;
+          _setValue(count);
+        });
+      }
     });
     super.initState();
+  }
+
+  void _setValue(int num) {
+    digits[3].num = (num & 0x000f) >> 0;
+    digits[2].num = (num & 0x00f0) >> 4;
+    digits[1].num = (num & 0x0f00) >> 8;
+    digits[0].num = (num & 0xf000) >> 12;
   }
 
   @override
@@ -62,16 +72,30 @@ class _MainPageState extends State<MainPage> {
         painter: element,
       ));
     }
+    final numField = TextField(
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(labelText: "number"),
+      onChanged: (str) {
+        int _x = 0;
+        try {
+          _x = int.parse(str);
+          preset = _x;
+        } on FormatException {
+          preset = 0;
+        }
+        preset = int.parse(str);
+      },
+    );
 
     return Scaffold(
         appBar: AppBar(title: const Text("XEVICOUNTER")),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
-              count++;
+              _running = !_running;
             });
           },
-          child: const Icon(Icons.plus_one),
+          child: Icon(_running ? Icons.play_arrow : Icons.pause),
         ),
         body: Center(
           child: Column(
@@ -83,7 +107,24 @@ class _MainPageState extends State<MainPage> {
               Text(
                 count.toString(),
                 style: const TextStyle(fontSize: 48),
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 200,
+                    child: numField,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          count = preset;
+                          _setValue(count);
+                        });
+                      },
+                      child: const Text("Set")),
+                ],
+              ),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ),
