@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -95,7 +94,7 @@ class _MainPageState extends State<MainPage> {
               _running = !_running;
             });
           },
-          child: Icon(_running ? Icons.play_arrow : Icons.pause),
+          child: Icon(_running ? Icons.pause : Icons.play_arrow),
         ),
         body: Center(
           child: Column(
