@@ -67,7 +67,7 @@ class _MainPageState extends State<MainPage> {
     List<CustomPaint> rowcontent = [];
     for (XeviPainter element in digits) {
       rowcontent.add(CustomPaint(
-        size: const Size(100, 100),
+        size: const Size(80, 80),
         painter: element,
       ));
     }
@@ -87,6 +87,7 @@ class _MainPageState extends State<MainPage> {
     );
 
     return Scaffold(
+        backgroundColor: const Color(0xfff0fff0),
         appBar: AppBar(title: const Text("XEVICOUNTER")),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
