@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:xevicounter/jatext.dart';
 import 'dart:async';
 import 'xevipainter.dart';
 
@@ -42,6 +43,8 @@ class _MainPageState extends State<MainPage> {
     XeviPainter(),
     XeviPainter(),
   ];
+  JaText _jaText = JaText(0);
+
   @override
   void initState() {
     Timer.periodic(const Duration(milliseconds: 100), (t) {
@@ -108,6 +111,7 @@ class _MainPageState extends State<MainPage> {
                 count.toString(),
                 style: const TextStyle(fontSize: 48),
               ),
+              _jaText,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -121,6 +125,7 @@ class _MainPageState extends State<MainPage> {
                           count = preset;
                           _setValue(count);
                         });
+                        _jaText.setValue(count.toDouble());
                       },
                       child: const Text("Set")),
                 ],
