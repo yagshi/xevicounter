@@ -1,3 +1,6 @@
+ios/build
+macos
+
 # Miscellaneous
 *.class
 *.log
