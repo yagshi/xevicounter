@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
         setState(() {
           count++;
           _setValue(count);
-          _jaText.setValue(count.toDouble());
+          _jaText = JaText(count.toDouble());
         });
       }
     });
@@ -64,7 +64,7 @@ class _MainPageState extends State<MainPage> {
     digits[2].num = (num & 0x00f0) >> 4;
     digits[1].num = (num & 0x0f00) >> 8;
     digits[0].num = (num & 0xf000) >> 12;
-    _jaText.setValue(num.toDouble());
+    _jaText = JaText(num.toDouble());
   }
 
   @override
@@ -127,7 +127,6 @@ class _MainPageState extends State<MainPage> {
                           count = preset;
                           _setValue(count);
                         });
-                        _jaText.setValue(count.toDouble());
                       },
                       child: const Text("Set")),
                 ],

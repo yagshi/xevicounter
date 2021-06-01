@@ -1,26 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
 class JaText extends StatefulWidget {
-  JaText(double val, {Key? key}) : super(key: key) {
-    _state.value = val;
-  }
-
-  final _JaTextState _state = _JaTextState();
+  JaText(this.value, {Key? key}) : super(key: key);
+  double value;
 
   @override
-  _JaTextState createState() {
-    return _state;
-  }
-
-  void setValue(double value) {
-    _state.setState(() {
-      _state.value = value;
-    });
-  }
+  _JaTextState createState() => _JaTextState();
 }
 
 class _JaTextState extends State<JaText> {
-  double value = 0;
   static const _digitNames = [
     '',
     '拾',
@@ -65,10 +53,10 @@ class _JaTextState extends State<JaText> {
 
   @override
   Widget build(BuildContext context) {
-    String jaString = _num2ja(value);
+    String jaString = _num2ja(widget.value);
     return Text(
       jaString,
-      style: TextStyle(fontSize: 30),
+      style: const TextStyle(fontSize: 30),
     );
   }
 }
