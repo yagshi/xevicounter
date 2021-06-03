@@ -43,7 +43,7 @@ class _MainPageState extends State<MainPage> {
     XeviPainter(),
     XeviPainter(),
   ];
-  JaText _jaText = JaText(0);
+  JaText _jaText = const JaText(0);
 
   @override
   void initState() {
@@ -52,7 +52,6 @@ class _MainPageState extends State<MainPage> {
         setState(() {
           count++;
           _setValue(count);
-          _jaText = JaText(count.toDouble());
         });
       }
     });
@@ -69,10 +68,12 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    //final height = MediaQuery.of(context).size.height;
     List<CustomPaint> rowcontent = [];
     for (XeviPainter element in digits) {
       rowcontent.add(CustomPaint(
-        size: const Size(80, 80),
+        size: Size((width - 10) / 4, (width - 10) / 4),
         painter: element,
       ));
     }
@@ -109,9 +110,27 @@ class _MainPageState extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: rowcontent,
               ),
-              Text(
-                count.toString(),
-                style: const TextStyle(fontSize: 48),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () => setState(() => _setValue(--count)),
+                      child: const Icon(Icons.exposure_minus_1_outlined)),
+                  const Padding(padding: EdgeInsets.all(20)),
+                  Text(
+                    (s) {
+                      return s.length > 8
+                          ? s
+                          : (" " * 8 + s).substring(s.length, s.length + 8);
+                    }(count.toString()),
+                    style: Theme.of(context).textTheme.headline2,
+                    //style: const TextStyle(fontSize: 48),
+                  ),
+                  const Padding(padding: EdgeInsets.all(20)),
+                  ElevatedButton(
+                      onPressed: () => setState(() => _setValue(++count)),
+                      child: const Icon(Icons.exposure_plus_1_outlined)),
+                ],
               ),
               _jaText,
               Row(

@@ -1,14 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class JaText extends StatefulWidget {
-  JaText(this.value, {Key? key}) : super(key: key);
-  double value;
-
-  @override
-  _JaTextState createState() => _JaTextState();
-}
-
-class _JaTextState extends State<JaText> {
+class JaText extends StatelessWidget {
+  const JaText(this.value, {Key? key}) : super(key: key);
+  final double value;
   static const _digitNames = [
     '',
     '拾',
@@ -24,6 +19,7 @@ class _JaTextState extends State<JaText> {
     ''
   ];
   static const _jfigures = ['〇', '壹', '貮', '參', '肆', '伍', '陸', '漆', '捌', '玖'];
+
   String _num2ja(double x) {
     int idx = 1;
     int pos = 0;
@@ -53,10 +49,11 @@ class _JaTextState extends State<JaText> {
 
   @override
   Widget build(BuildContext context) {
-    String jaString = _num2ja(widget.value);
-    return Text(
+    String jaString = _num2ja(value);
+    return SelectableText(
       jaString,
-      style: const TextStyle(fontSize: 30),
+      style: Theme.of(context).textTheme.headline4,
+//      style: const TextStyle(fontSize: 30),
     );
   }
 }
