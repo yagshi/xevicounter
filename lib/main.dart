@@ -36,6 +36,8 @@ class _MainPageState extends State<MainPage> {
   int count = 0;
   int preset = 0;
   bool _running = false;
+  double _sliderValue = 1;
+  int _timeCounter = 0;
 
   List<XeviPainter> digits = [
     XeviPainter(),
@@ -49,10 +51,13 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     Timer.periodic(const Duration(milliseconds: 100), (t) {
       if (_running) {
-        setState(() {
-          count++;
-          _setValue(count);
-        });
+        if (--_timeCounter <= 0) {
+          _timeCounter = getIntervalTimeCounter(_sliderValue);
+          setState(() {
+            count++;
+            _setValue(count);
+          });
+        }
       }
     });
     super.initState();
@@ -64,6 +69,19 @@ class _MainPageState extends State<MainPage> {
     digits[1].num = (num & 0x0f00) >> 8;
     digits[0].num = (num & 0xf000) >> 12;
     _jaText = JaText(num.toDouble());
+  }
+
+  int getIntervalTimeCounter(double index) {
+    // 0.1, 1, 10, 60
+    if (index <= 1) {
+      return 1;
+    } else if (index <= 2) {
+      return 10;
+    } else if (index <= 3) {
+      return 100;
+    } else {
+      return 600;
+    }
   }
 
   @override
@@ -148,6 +166,26 @@ class _MainPageState extends State<MainPage> {
                         });
                       },
                       child: const Text("Set")),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("interval:"),
+                  Slider(
+                    value: _sliderValue,
+                    min: 1,
+                    max: 4,
+                    label:
+                        (getIntervalTimeCounter(_sliderValue) / 10).toString() +
+                            ' s',
+                    divisions: 3,
+                    onChanged: (v) {
+                      setState(() {
+                        _sliderValue = v;
+                      });
+                    },
+                  ),
                 ],
               ),
             ],
