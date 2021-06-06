@@ -97,6 +97,7 @@ class _MainPageState extends State<MainPage> {
     }
     final numField = TextField(
       keyboardType: TextInputType.number,
+      maxLines: 1,
       decoration: const InputDecoration(labelText: "number"),
       onChanged: (str) {
         int _x = 0;
@@ -152,10 +153,11 @@ class _MainPageState extends State<MainPage> {
               ),
               _jaText,
               Row(
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 200,
+                  SizedBox(
+                    width: 400,
                     child: numField,
                   ),
                   ElevatedButton(
@@ -172,19 +174,22 @@ class _MainPageState extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text("interval:"),
-                  Slider(
-                    value: _sliderValue,
-                    min: 1,
-                    max: 4,
-                    label:
-                        (getIntervalTimeCounter(_sliderValue) / 10).toString() +
-                            ' s',
-                    divisions: 3,
-                    onChanged: (v) {
-                      setState(() {
-                        _sliderValue = v;
-                      });
-                    },
+                  SizedBox(
+                    width: 400,
+                    child: Slider(
+                      value: _sliderValue,
+                      min: 1,
+                      max: 4,
+                      label: (getIntervalTimeCounter(_sliderValue) / 10)
+                              .toString() +
+                          ' s',
+                      divisions: 3,
+                      onChanged: (v) {
+                        setState(() {
+                          _sliderValue = v;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
