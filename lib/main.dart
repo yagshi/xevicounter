@@ -114,6 +114,22 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         backgroundColor: const Color(0xfff0fff0),
         appBar: AppBar(title: const Text("XEVICOUNTER")),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration:
+                    BoxDecoration(color: Theme.of(context).primaryColor),
+                child: Text(
+                  "Header",
+                  style: Theme.of(context).primaryTextTheme.headline4,
+                ),
+              ),
+              Text("menu1"),
+              Text("menu2")
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
