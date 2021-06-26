@@ -24,7 +24,7 @@ class JaText extends StatelessWidget {
     int idx = 1;
     int pos = 0;
     String str = "";
-    for (; pos < _digitNames.length - 1; pos++, idx *= 10);
+    for (; pos < _digitNames.length - 1; pos++, idx *= 10) {}
     for (; pos >= 0; pos--, idx ~/= 10) {
       if (_digitNames[pos] == '' && pos != 0) continue;
       if (idx > x) continue;

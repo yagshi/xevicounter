@@ -97,6 +97,7 @@ class _MainPageState extends State<MainPage> {
     }
     final numField = TextField(
       keyboardType: TextInputType.number,
+      maxLines: 1,
       decoration: const InputDecoration(labelText: "number"),
       onChanged: (str) {
         int _x = 0;
@@ -113,6 +114,22 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         backgroundColor: const Color(0xfff0fff0),
         appBar: AppBar(title: const Text("XEVICOUNTER")),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration:
+                    BoxDecoration(color: Theme.of(context).primaryColor),
+                child: Text(
+                  "Header",
+                  style: Theme.of(context).primaryTextTheme.headline4,
+                ),
+              ),
+              Text("menu1"),
+              Text("menu2")
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             setState(() {
@@ -152,10 +169,11 @@ class _MainPageState extends State<MainPage> {
               ),
               _jaText,
               Row(
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    width: 200,
+                  SizedBox(
+                    width: 400,
                     child: numField,
                   ),
                   ElevatedButton(
@@ -172,19 +190,22 @@ class _MainPageState extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const Text("interval:"),
-                  Slider(
-                    value: _sliderValue,
-                    min: 1,
-                    max: 4,
-                    label:
-                        (getIntervalTimeCounter(_sliderValue) / 10).toString() +
-                            ' s',
-                    divisions: 3,
-                    onChanged: (v) {
-                      setState(() {
-                        _sliderValue = v;
-                      });
-                    },
+                  SizedBox(
+                    width: 400,
+                    child: Slider(
+                      value: _sliderValue,
+                      min: 1,
+                      max: 4,
+                      label: (getIntervalTimeCounter(_sliderValue) / 10)
+                              .toString() +
+                          ' s',
+                      divisions: 3,
+                      onChanged: (v) {
+                        setState(() {
+                          _sliderValue = v;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),

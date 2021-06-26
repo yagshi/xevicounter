@@ -17,6 +17,7 @@ class XeviPainter extends CustomPainter {
     final p = Paint();
     p.style = PaintingStyle.stroke;
     p.strokeWidth = width / 25;
+    p.strokeCap = StrokeCap.round;
     final _len = width > height ? height : width;
     canvas.drawLine(Offset(_segments[4][0] * _len, _segments[4][1] * _len),
         Offset(_segments[4][2] * _len, _segments[4][3] * _len), p);
