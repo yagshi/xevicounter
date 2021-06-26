@@ -123,14 +123,14 @@ class _MainPageState extends State<MainPage> {
         ),
         body: Center(
           child: Column(
-            children: [
+            children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: rowcontent,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   ElevatedButton(
                       onPressed: () => setState(() => _setValue(--count)),
                       child: const Icon(Icons.exposure_minus_1_outlined)),
@@ -153,7 +153,7 @@ class _MainPageState extends State<MainPage> {
               _jaText,
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   Container(
                     width: 200,
                     child: numField,
@@ -170,7 +170,7 @@ class _MainPageState extends State<MainPage> {
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   const Text("interval:"),
                   Slider(
                     value: _sliderValue,
